@@ -549,7 +549,7 @@ Official documentation sources used in this chapter:
 
 **Continue your learning journey**:
 
-→ [Digital Twin: Gazebo & Unity Simulation](../module2/digital-twin-gazebo-unity.md)
+→ **Coming Soon:** Digital Twin: Gazebo & Unity Simulation
 
 **Optional Exercises** (for deeper practice):
 1. Create a publisher-subscriber pair that exchanges custom message types (define your own `.msg` file)
