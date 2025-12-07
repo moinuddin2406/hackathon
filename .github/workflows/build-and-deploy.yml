@@ -1,0 +1,75 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.8'
+          cache: 'pip'
+
+      - name: Install Python dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Install Node dependencies
+        run: |
+          npm ci
+
+      - name: Build site (with timing)
+        run: |
+          echo "🏗️ Starting build..."
+          START_TIME=$(date +%s)
+          npm run build
+          END_TIME=$(date +%s)
+          BUILD_TIME=$((END_TIME - START_TIME))
+          echo "✅ Build completed in ${BUILD_TIME} seconds"
+          if [ $BUILD_TIME -gt 120 ]; then
+            echo "❌ ERROR: Build time exceeded 2 minutes (${BUILD_TIME}s > 120s)"
+            exit 1
+          fi
+          echo "✅ Build time is within 2-minute constraint"
+
+      - name: Validate readability (if chapters exist)
+        run: |
+          if [ -d "docs/module1" ]; then
+            echo "📊 Validating chapter readability..."
+            for chapter in docs/module*/*.md; do
+              if [ -f "$chapter" ]; then
+                python src/utils/readability-checker.py "$chapter" || echo "⚠️ Warning: $chapter failed readability check"
+              fi
+            done
+          else
+            echo "ℹ️ No chapters found to validate yet"
+          fi
+
+      - name: Deploy to GitHub Pages
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
+          cname: ${{ secrets.CUSTOM_DOMAIN }}

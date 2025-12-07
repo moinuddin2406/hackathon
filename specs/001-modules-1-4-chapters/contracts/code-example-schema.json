@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Code Example Schema",
+  "description": "JSON schema for validating Python code examples in educational chapters",
+  "type": "object",
+  "required": [
+    "language",
+    "description",
+    "code",
+    "dependencies",
+    "free_tier_compatible",
+    "inline_comments"
+  ],
+  "properties": {
+    "language": {
+      "type": "string",
+      "enum": ["python"],
+      "description": "Programming language (currently only Python supported)"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 15,
+      "maxLength": 150,
+      "description": "Brief explanation of what the code demonstrates"
+    },
+    "code": {
+      "type": "string",
+      "minLength": 50,
+      "description": "Executable Python code with inline comments"
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "rclpy",
+          "numpy",
+          "opencv-python",
+          "openai-whisper",
+          "matplotlib",
+          "scipy",
+          "pandas",
+          "scikit-learn",
+          "sounddevice",
+          "pyaudio",
+          "pyyaml",
+          "pytest"
+        ]
+      },
+      "description": "Required pip packages (must be free-tier compatible)"
+    },
+    "free_tier_compatible": {
+      "type": "boolean",
+      "const": true,
+      "description": "Must be true - code must run on CPU without paid services"
+    },
+    "expected_output": {
+      "type": "string",
+      "description": "Sample output for validation (optional but recommended)"
+    },
+    "execution_time": {
+      "type": "string",
+      "pattern": "^[0-9]+ (seconds?|minutes?|continuous)$",
+      "description": "Estimated runtime on CPU (optional)"
+    },
+    "inline_comments": {
+      "type": "boolean",
+      "const": true,
+      "description": "Must be true - key steps must be explained in comments"
+    }
+  },
+  "additionalProperties": false
+}
