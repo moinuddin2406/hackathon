@@ -23,28 +23,27 @@ const sidebars = {
         'module1/robotic-nervous-system-ros2',
       ],
     },
-    // TODO: Uncomment when these chapters are created
-    // {
-    //   type: 'category',
-    //   label: 'Module 2: Digital Twin',
-    //   items: [
-    //     'module2/digital-twin-gazebo-unity',
-    //   ],
-    // },
-    // {
-    //   type: 'category',
-    //   label: 'Module 3: AI-Robot Brain',
-    //   items: [
-    //     'module3/ai-robot-brain-nvidia-isaac',
-    //   ],
-    // },
-    // {
-    //   type: 'category',
-    //   label: 'Module 4: Vision-Language-Action',
-    //   items: [
-    //     'module4/vision-language-action-vla',
-    //   ],
-    // },
+    {
+      type: 'category',
+      label: 'Module 2: Digital Twin',
+      items: [
+        'module2/digital-twin-gazebo-unity',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Module 3: AI-Robot Brain',
+      items: [
+        'module3/ai-robot-brain-nvidia-isaac',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Module 4: Vision-Language-Action',
+      items: [
+        'module4/vision-language-action-vla',
+      ],
+    },
   ],
 };
 
